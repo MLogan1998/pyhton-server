@@ -1,19 +1,9 @@
+from models.location import Location
+
 LOCATIONS = [
-    {
-        "id": 1,
-        "name": "Neyland Stadium",
-        "city": "Knoxville",
-    },
-    {
-        "id": 2,
-        "name": "Nissan Stadium",
-        "city": "Nashville",
-    },
-    {
-        "id": 3,
-        "name": "Red Rocks",
-        "city": "Denver",
-    }
+    Location(1, "Neyland Stadium", "Knoxville"),
+    Location(2, "Nissan Stadium", "Nashville"),
+    Location(3, "Red Rocks", "Denver")
 ]
 
 def get_all_locations():
@@ -29,14 +19,14 @@ def get_single_location(id):
     for location in LOCATIONS:
         # Dictionaries in Python use [] notation to find a key
         # instead of the dot notation that JavaScript used.
-        if location["id"] == id:
+        if location.id == id:
             requested_location = location
 
     return requested_location
 
 def create_location(location):
     # Get the id value of the last location in the list
-    max_id = LOCATIONS[-1]["id"]
+    max_id = LOCATIONS[-1].id
 
     # Add 1 to whatever that number is
     new_id = max_id + 1
@@ -45,7 +35,8 @@ def create_location(location):
     location["id"] = new_id
 
     # Add the location dictionary to the list
-    LOCATIONS.append(location)
+    new_location = Location(location["id"], location["name"], location["city"])
+    LOCATIONS.append(new_location)
 
     # Return the dictionary with `id` property added
     return location
@@ -54,7 +45,7 @@ def delete_location(id):
     location_index = -1
 
     for index, location in enumerate(LOCATIONS):
-        if location["id"] == id:
+        if location.id == id:
             location_index = index
         
     if location_index >= 0:
@@ -62,6 +53,6 @@ def delete_location(id):
 
 def update_location(id, new_location):
     for index, location in enumerate(LOCATIONS):
-        if location["id"] == id:
-            LOCATIONS[index] = new_location
+        if location.id == id:
+            LOCATIONS[index] = Location(new_location["id"], new_location["name"], new_location["city"])
             break
