@@ -1,19 +1,9 @@
+from models.customers import Customer
+
 CUSTOMERS = [
-    {
-        "id": 1,
-        "name": "Nate Owens",
-        "money": 45
-    },
-    {
-        "id": 2,
-        "name": "Billy Campbell",
-        "money": 55
-    },
-    {
-        "id": 3,
-        "name": "Mark Young",
-        "money": 64
-    }
+    Customer(1, "Nate Owens", 45),
+    Customer(2, "Billy Campbell", 55),
+    Customer(3, "Mark Young", 64)
 ]
 
 def get_all_customers():
@@ -29,14 +19,14 @@ def get_single_customer(id):
     for customer in CUSTOMERS:
         # Dictionaries in Python use [] notation to find a key
         # instead of the dot notation that JavaScript used.
-        if customer["id"] == id:
+        if customer.id == id:
             requested_customer = customer
 
     return requested_customer
 
 def create_customer(customer):
     # Get the id value of the last customer in the list
-    max_id = CUSTOMERS[-1]["id"]
+    max_id = CUSTOMERS[-1].id
 
     # Add 1 to whatever that number is
     new_id = max_id + 1
@@ -45,7 +35,8 @@ def create_customer(customer):
     customer["id"] = new_id
 
     # Add the customer dictionary to the list
-    CUSTOMERS.append(customer)
+    new_customer = Customer(customer["id"], customer["name"], customer["money"])
+    CUSTOMERS.append(new_customer)
 
     # Return the dictionary with `id` property added
     return customer
@@ -57,7 +48,7 @@ def delete_customer(id):
     # Iterate the CUSTOMERS list, but use enumerate() so that you
     # can access the index value of each item
     for index, customer in enumerate(CUSTOMERS):
-        if customer["id"] == id:
+        if customer.id == id:
             # Found the customer Store the current index.
            customer_index = index
 
@@ -67,6 +58,6 @@ def delete_customer(id):
 
 def update_customer(id, new_customer):
     for index, customer in enumerate(CUSTOMERS):
-        if customer["id"] == id:
-            CUSTOMERS[index] = new_customer
+        if customer.id == id:
+            CUSTOMERS[index] = Customer(new_customer["id"], new_customer["name"], new_customer["money"])
             break
