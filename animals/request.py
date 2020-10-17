@@ -51,6 +51,8 @@ def get_all_animals():
 
     # Use `json` package to properly serialize list as JSON
     return json.dumps(animals)
+
+    
 # Function with a single parameter
 def get_single_animal(id):
     with sqlite3.connect("./kennel.db") as conn:
