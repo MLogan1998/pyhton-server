@@ -69,6 +69,17 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_customer(id)}"
                 else:
                     response = f"{get_all_customers()}"
+            elif resource == "employees":
+                if id is not None:
+                    response = f"{get_single_employee(id)}"
+                else:
+                    response = f"{get_all_employees()}"
+            elif resource == "locations":
+                if id is not None:
+                    response = f"{get_single_location(id)}"
+                else:
+                    response = f"{get_all_locations()}"
+
 
         # Response from parse_url() is a tuple with 3
         # items in it, which means the request was for
@@ -82,13 +93,12 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "email" and resource == "customers":
                 response = get_customers_by_email(value)
 
-        self.wfile.write(response.encode())
 
         # This weird code sends a response back to the client
         self.wfile.write(f"{response}".encode())
 
-        # Here's a method on the class that overrides the parent's method.
-        # It handles any POST request.
+    # Here's a method on the class that overrides the parent's method.
+    # It handles any POST request.
     def do_POST(self):
             self._set_headers(201)
             content_len = int(self.headers.get('content-length', 0))

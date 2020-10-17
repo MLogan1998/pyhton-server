@@ -3,11 +3,6 @@ import json
 
 from models.customers import Customer
 
-CUSTOMERS = [
-    Customer(1, "Nate Owens", 45),
-    Customer(2, "Billy Campbell", 55),
-    Customer(3, "Mark Young", 64)
-]
 
 def get_all_customers():
     with sqlite3.connect("./kennel.db") as conn:
@@ -30,7 +25,7 @@ def get_all_customers():
 
         for row in dataset:
             customer = Customer(row['id'], row['name'], row['address'], row['email'], row['password'])
-        customers.append(customer.__dict__)
+            customers.append(customer.__dict__)
     return json.dumps(customers)
 
 
