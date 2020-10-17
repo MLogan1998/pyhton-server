@@ -66,17 +66,42 @@ def create_employee(employee):
     return employee
 
 def delete_employee(id):
-    employee_index = -1
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
 
-    for index, employee in enumerate(EMPLOYEES):
-        if employee.id == id:
-            employee_index = index
-        
-    if employee_index >= 0:
-            EMPLOYEES.pop(employee_index)
+        db_cursor.execute("""
+        DELETE FROM Employee
+        WHERE id = ?
+        """, ( id, ))
+
 
 def update_employee(id, new_employee):
     for index, employee in enumerate(EMPLOYEES):
         if employee.id== id:
             EMPLOYEES[index] = Employee(new_employee["id"], new_employee["name"], new_employee["position"], new_employee["working"])
             break
+
+
+def get_employees_by_location(location_id):
+    with sqlite3.connect("./kennel.db") as conn:
+        conn.row_factory = sqlite3.Row 
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            e.id,
+            e.name,
+            e.address,
+            e.location_id
+        FROM Employee e
+        WHERE e.location_id = ?       
+        """, ( location_id, ))
+
+        employees = []
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            employee = Employee(row['id'], row['name'], row['address'], row['location_id'])
+            employees.append(employee.__dict__)
+
+    return json.dumps(employees)
