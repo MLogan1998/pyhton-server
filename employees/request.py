@@ -4,6 +4,10 @@ import json
 from models.employee import Employee
 from models.location import Location
 
+EMPLOYEES = [
+    Employee(1, 'Bob', '123 Main St', 3)
+]
+
 
 def get_all_employees():
     with sqlite3.connect("./kennel.db") as conn:

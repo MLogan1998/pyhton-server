@@ -3,6 +3,9 @@ import sqlite3
 
 from models.location import Location
 
+LOCATIONS = [
+    Location(1, 'main', 'address')
+]
 
 def get_all_locations():
     with sqlite3.connect("./kennel.db") as conn:
